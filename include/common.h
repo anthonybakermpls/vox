@@ -1,4 +1,3 @@
-
 #ifndef COMMON_H
 #define COMMON_H 1
 
@@ -29,4 +28,11 @@ extern int errno;
 #endif
 
 #endif /* !COMMON_H */
+
+	
+
+#ifndef EXIT_SUCCESS
+#  define EXIT_SUCCESS  0
+#  define EXIT_FAILURE  1
+#endif
 
