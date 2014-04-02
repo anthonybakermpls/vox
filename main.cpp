@@ -7,18 +7,15 @@
 
 #define MUS_PATH "message.wav"
  
-// prototype for our audio callback
-// see the implementation for more information
-void my_audio_callback(void *userdata, Uint8 *stream, int len);
+// audio callback
+void cb(void *userdata, Uint8 *stream, int len);
  
 // variable declarations
 static Uint8 *audio_pos; // global pointer to the audio buffer to be played
 static Uint32 audio_len; // remaining length of the sample we have to play
  
  
-/*
-** PLAYING A SOUND IS MUCH MORE COMPLICATED THAN IT SHOULD BE
-*/
+
 int main(int argc, char* argv[]){
  
 	// Initialize SDL.
@@ -37,7 +34,7 @@ int main(int argc, char* argv[]){
 	  return 1;
 	}
 	// set the callback function
-	wav_spec.callback = my_audio_callback;
+	wav_spec.callback = cb;
 	wav_spec.userdata = NULL;
 	// set our global static variables
 	audio_pos = wav_buffer; // copy sound buffer
@@ -63,11 +60,11 @@ int main(int argc, char* argv[]){
  
 }
  
-// audio callback function
+
 // here you have to copy the data of your audio buffer into the
 // requesting audio buffer (stream)
 // you should only copy as much as the requested length (len)
-void my_audio_callback(void *userdata, Uint8 *stream, int len) {
+void cb(void *userdata, Uint8 *stream, int len) {
 	
 	if (audio_len ==0)
 		return;
