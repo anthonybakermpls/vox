@@ -24,6 +24,8 @@ static Uint32 audio_len; // remaining length of the sample we have to play
 int main(int argc, char* argv[])
 {
  
+  const char* sample_file="waves/message.wav";
+  
 	// Initialize SDL.
 	if (SDL_Init(SDL_INIT_AUDIO) < 0)
 			return 1;
@@ -36,7 +38,7 @@ int main(int argc, char* argv[])
 	
 	/* Load the WAV */
 	// the specs, length and buffer of our wav are filled
-	if( SDL_LoadWAV(MUS_PATH, &wav_spec, &wav_buffer, &wav_length) == NULL ){
+	if( SDL_LoadWAV(sample_file, &wav_spec, &wav_buffer, &wav_length) == NULL ){
 	  return 1;
 	}
 	// set the callback function
