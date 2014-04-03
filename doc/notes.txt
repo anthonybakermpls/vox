@@ -1,0 +1,19 @@
+
+If you built your own SDL, you probably didn't have development headers
+for PulseAudio (or ALSA), so it's trying to use /dev/dsp, which doesn't
+exist on many modern Linux systems (hence, SDL_Init(SDL_INIT_AUDIO)
+succeeds, but no devices are found when you try to open one). "apt-get
+install libasound2-dev libpulse-dev" and rebuild SDL...let the configure
+script find the new headers so it includes PulseAudio and ALSA support.
+
+If you didn't build your own SDL, maybe you can force it to use a
+different audio path:
+
+SDL_AUDIODRIVER=pulse ./mytestprogram
+or
+SDL_AUDIODRIVER=alsa ./mytestprogram
+
+
+One of those two solutions will (probably) fix your problem.
+
+--ryan. 

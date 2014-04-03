@@ -5,16 +5,21 @@ CXX = clang++
 SDL_LIB = -L/usr/local/lib -lSDL2 -Wl,-rpath=/usr/local/lib
 SDL_INCLUDE = -I/usr/local/include
 CXXFLAGS = -Wall -c -std=c++11 $(SDL_INCLUDE)
+SRCDIR = src
+OBJDIR = obj
 LDFLAGS = $(SDL_LIB)
-PROG = a.out
+PROG = vox
 
 all: $(PROG)
 
-$(PROG): main.o
-	$(CXX) $< $(LDFLAGS) -o $@
+$(PROG): $(OBJDIR)/main.o
+	$(CXX) $(OBJDIR)/main.o $(LDFLAGS) -o $@
 
-main.o: main.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@
+$(OBJDIR)/main.o: $(SRCDIR)/main.cpp
+	$(CXX) $(CXXFLAGS) -c $(SRCDIR)/main.cpp -o $(OBJDIR)/main.o 
+#	$(CXX) $(CXXFLAGS) $(SRCDIR)/$< -o $@
 
+
+.PHONY:	clean
 clean:
-	rm *.o && rm $(PROG)
+	rm $(PROG) && rm -rf ./$(OBJDIR)/*
