@@ -22,4 +22,4 @@ $(OBJDIR)/main.o: $(SRCDIR)/main.cpp
 
 .PHONY:	clean
 clean:
-	rm $(PROG) && rm -rf ./$(OBJDIR)/*
+	rm $(PROG) && rm $(OBJDIR)/*

@@ -12,12 +12,23 @@
 
 
  
-// audio callback
+
 void cb(void *userdata, Uint8 *stream, int len);
+
+void play();
+
  
 // global variables
 static Uint8 *audio_pos; // global pointer to the audio buffer to be played
 static Uint32 audio_len; // remaining length of the sample we have to play
+ 
+const char* sample_file="waves/message.wav";
+
+static Uint32 wav_length; // length of our sample
+static Uint8 *wav_buffer; // buffer containing our audio file
+static SDL_AudioSpec wav_spec; // the specs of our piece of music 
+ 
+ 
  
  
 
@@ -26,30 +37,45 @@ int main(int argc, char* argv[])
  
   
 
-  // Initialize SDL.
+
   if (SDL_Init(SDL_INIT_AUDIO) < 0)
           return 1; 
 
-  const char* sample_file="waves/message.wav";
 
 
 
-  // local variables
-  static Uint32 wav_length; // length of our sample
-  static Uint8 *wav_buffer; // buffer containing our audio file
-  static SDL_AudioSpec wav_spec; // the specs of our piece of music
   
   
+  
+  sample_file="waves/alert.wav";
+  play();
+  
+  sample_file="waves/time.wav";
+  play();
+    
+  sample_file="waves/to.wav";
+  play();
 
-  // the specs, length and buffer of our wav are filled
+  sample_file="waves/get.wav";
+  play();
+
+  sample_file="waves/up.wav";
+  play();  
+ 
+}
+ 
+
+void play()
+{
+  
   if( SDL_LoadWAV(sample_file, &wav_spec, &wav_buffer, &wav_length) == NULL )
   {
-    return 1;
+    return;
   }
 
   wav_spec.callback = cb;	// set the callback function
   wav_spec.userdata = NULL;
-
+  
 
   audio_pos = wav_buffer; // copy sound buffer
   audio_len = wav_length; // copy file length
@@ -69,25 +95,14 @@ int main(int argc, char* argv[])
   {
       SDL_Delay(100); 
   }
-  
     
-    
-    
-    
-    
-    
-  // shut everything down
+
   SDL_CloseAudio();
-  SDL_FreeWAV(wav_buffer);
- 
+  SDL_FreeWAV(wav_buffer);  
+  
 }
- 
 
 
-
-// here you have to copy the data of your audio buffer into the
-// requesting audio buffer (stream)
-// you should only copy as much as the requested length (len)
 void cb(void *userdata, Uint8 *stream, int len) 
 {
   if (audio_len ==0)
