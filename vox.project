@@ -112,4 +112,8 @@
       </Completion>
     </Configuration>
   </Settings>
+  <VirtualDirectory Name="include">
+    <File Name="include/common.h"/>
+    <File Name="include/audio_player.h"/>
+  </VirtualDirectory>
 </CodeLite_Project>
