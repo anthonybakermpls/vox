@@ -1,4 +1,12 @@
 
+www.kekkai.org/roger/sdl/mixer/
+
+
+
+
+
+
+
 If you built your own SDL, you probably didn't have development headers
 for PulseAudio (or ALSA), so it's trying to use /dev/dsp, which doesn't
 exist on many modern Linux systems (hence, SDL_Init(SDL_INIT_AUDIO)
