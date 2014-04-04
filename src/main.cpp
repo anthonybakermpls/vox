@@ -6,7 +6,7 @@
 
 
 
-
+#include "sample.h"
 
 
 
@@ -22,7 +22,7 @@ void play();
 static Uint8 *audio_pos; // global pointer to the audio buffer to be played
 static Uint32 audio_len; // remaining length of the sample we have to play
  
-const char* sample_file="waves/message.wav";
+const char* sample_file;
 
 static Uint32 wav_length; // length of our sample
 static Uint8 *wav_buffer; // buffer containing our audio file
@@ -50,17 +50,12 @@ int main(int argc, char* argv[])
   sample_file="waves/alert.wav";
   play();
   
-  sample_file="waves/time.wav";
-  play();
-    
-  sample_file="waves/to.wav";
-  play();
+  
+  Sample s1("waves/time.wav");
+  s1.play();
+  
 
-  sample_file="waves/get.wav";
-  play();
 
-  sample_file="waves/up.wav";
-  play();  
  
 }
  

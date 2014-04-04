@@ -115,5 +115,6 @@
   <VirtualDirectory Name="include">
     <File Name="include/common.h"/>
     <File Name="include/audio_player.h"/>
+    <File Name="include/sample.h"/>
   </VirtualDirectory>
 </CodeLite_Project>
