@@ -1,5 +1,6 @@
 /// STL
 #include <iostream>
+#include <list>
 
 /// Third party
 #include <SDL2/SDL.h>
@@ -13,23 +14,6 @@
 
  
 
-void cb(void *userdata, Uint8 *stream, int len);
-
-void play();
-
- 
-// global variables
-static Uint8 *audio_pos; // global pointer to the audio buffer to be played
-static Uint32 audio_len; // remaining length of the sample we have to play
- 
-const char* sample_file;
-
-static Uint32 wav_length; // length of our sample
-static Uint8 *wav_buffer; // buffer containing our audio file
-static SDL_AudioSpec wav_spec; // the specs of our piece of music 
- 
- 
- 
  
 
 int main(int argc, char* argv[])
@@ -42,72 +26,41 @@ int main(int argc, char* argv[])
           return 1; 
 
 
+  std::list<Sample> sample_list;
+  
+  Sample s1("waves/alert.wav");
+  Sample s2("waves/surface.wav");
+  Sample s3("waves/temperature.wav");
+  Sample s4("waves/has.wav");
+  Sample s5("waves/supercooled.wav");    
+  Sample s6("waves/energy.wav");    
+  Sample s7("waves/supply.wav");    
+  
+//  sample_list.push_back(s1);
+//  sample_list.push_back(s2);
+//  sample_list.push_back(s3);
+//  sample_list.push_back(s4);  
+//  sample_list.push_back(s5);  
+//
+//
+//  sample_list.front().play();
+  
+
+//  for (std::list<Sample>::iterator it=sample_list.begin(); it != sample_list.end(); ++it)
+//    it->play();
+//    
+//    
 
 
-  
-  
-  
-  sample_file="waves/alert.wav";
-  play();
-  
-  
-  Sample s1("waves/time.wav");
   s1.play();
+  s2.play();
+  s3.play();
+  s4.play();
+  s5.play();
+  s6.play();
+  s7.play();
   
-
 
  
 }
  
-
-void play()
-{
-  
-  if( SDL_LoadWAV(sample_file, &wav_spec, &wav_buffer, &wav_length) == NULL )
-  {
-    return;
-  }
-
-  wav_spec.callback = cb;	// set the callback function
-  wav_spec.userdata = NULL;
-  
-
-  audio_pos = wav_buffer; // copy sound buffer
-  audio_len = wav_length; // copy file length
-  
-
-  if ( SDL_OpenAudio(&wav_spec, NULL) < 0 )
-  {
-    fprintf(stderr, "Couldn't open audio: %s\n", SDL_GetError());
-    exit(-1);
-  }
-  
-
-  SDL_PauseAudio(0);  // Start playing
-
-
-  while ( audio_len > 0 )   // wait until we're don't playing
-  {
-      SDL_Delay(100); 
-  }
-    
-
-  SDL_CloseAudio();
-  SDL_FreeWAV(wav_buffer);  
-  
-}
-
-
-void cb(void *userdata, Uint8 *stream, int len) 
-{
-  if (audio_len ==0)
-      return;
-  
-  len = ( len > audio_len ? audio_len : len );
-  SDL_memcpy (stream, audio_pos, len); 					// simply copy from one buffer into the other
-  
-//	SDL_MixAudio(stream, audio_pos, len, SDL_MIX_MAXVOLUME);// mix from one buffer into another
-  
-  audio_pos += len;
-  audio_len -= len;
-}

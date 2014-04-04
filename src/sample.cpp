@@ -1,41 +1,37 @@
 #include "sample.h"
 
-#include <functional> // for std::bind
-using namespace std::placeholders; // for _1 etc.
+
 
 Sample::Sample()
 {
-  wave_file="waves/alert.wav";
+
+    
 }
 
 
 Sample::Sample(const char* s)
 {
   wave_file=s;
+  if( SDL_LoadWAV(wave_file, &wav_spec, &wav_buffer, &wav_length) == NULL )
+  {
+    return;
+  }
+  wav_spec.callback = cb;
+  wav_spec.userdata = this; // slip this in as void *userdata 
+  audio_pos = wav_buffer; // copy sound buffer
+  audio_len = wav_length; // copy file length
 }
 
 Sample::~Sample()
 {
-
+  SDL_FreeWAV(wav_buffer);
 }
 
 
 
 void Sample::play()
 {
-  if( SDL_LoadWAV(wave_file, &wav_spec, &wav_buffer, &wav_length) == NULL )
-  {
-    return;
-  }
 
-
-  wav_spec.callback = cb;
-  wav_spec.userdata = this; // slip this in as void *userdata 
-
-
-  audio_pos = wav_buffer; // copy sound buffer
-  audio_len = wav_length; // copy file length
-  
 
   if ( SDL_OpenAudio(&wav_spec, NULL) < 0 )
   {
@@ -43,18 +39,14 @@ void Sample::play()
     exit(-1);
   }
   
-
   SDL_PauseAudio(0);  // Start playing
 
-
-  while ( audio_len > 0 )   // wait until we're don't playing
+  while ( audio_len > 0 )   // wait until we're done playing
   {
-      SDL_Delay(100); 
+      SDL_Delay(10); 
   }
     
-
   SDL_CloseAudio();
-  SDL_FreeWAV(wav_buffer);  
 }
 
 
